@@ -1,7 +1,6 @@
 *.suo
 *.ssms_suo
 *.user
-Toolbox/
 [Dd]ebug/
 [Rr]elease/
 x64/

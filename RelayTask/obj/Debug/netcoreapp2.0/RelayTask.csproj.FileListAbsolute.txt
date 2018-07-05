@@ -1,9 +1,0 @@
-C:\_stuff\_projects\RelayTask\RelayTask\obj\Debug\netcoreapp2.0\RelayTask.csprojAssemblyReference.cache
-C:\_stuff\_projects\RelayTask\RelayTask\obj\Debug\netcoreapp2.0\RelayTask.csproj.CoreCompileInputs.cache
-C:\_stuff\_projects\RelayTask\RelayTask\obj\Debug\netcoreapp2.0\RelayTask.AssemblyInfoInputs.cache
-C:\_stuff\_projects\RelayTask\RelayTask\obj\Debug\netcoreapp2.0\RelayTask.AssemblyInfo.cs
-C:\_stuff\_projects\RelayTask\RelayTask\bin\Debug\netcoreapp2.0\RelayTask.deps.json
-C:\_stuff\_projects\RelayTask\RelayTask\bin\Debug\netcoreapp2.0\RelayTask.dll
-C:\_stuff\_projects\RelayTask\RelayTask\bin\Debug\netcoreapp2.0\RelayTask.pdb
-C:\_stuff\_projects\RelayTask\RelayTask\obj\Debug\netcoreapp2.0\RelayTask.dll
-C:\_stuff\_projects\RelayTask\RelayTask\obj\Debug\netcoreapp2.0\RelayTask.pdb
