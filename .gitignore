@@ -1,0 +1,16 @@
+*.suo
+*.ssms_suo
+*.user
+Toolbox/
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]in/
+[Oo]bj/
+**/packages/*
+!**/packages/build/
+*.log
+.vs
+/*/.vs
+.datasource
