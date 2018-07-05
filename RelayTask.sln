@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayTask", "RelayTask\RelayTask.csproj", "{23F4CAB2-3DC3-484F-B166-C621688B16A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelayTask", "RelayTask\RelayTask.csproj", "{23F4CAB2-3DC3-484F-B166-C621688B16A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayTask.Tests", "RelayTask.Tests\RelayTask.Tests.csproj", "{489ADCF0-B356-4B22-B794-7F91FCA9F2A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelayTask.Tests", "RelayTask.Tests\RelayTask.Tests.csproj", "{489ADCF0-B356-4B22-B794-7F91FCA9F2A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
