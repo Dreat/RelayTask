@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace RelayTask
@@ -7,28 +6,26 @@ namespace RelayTask
     public class Publisher
     {
         private readonly Relay _relay;
-        private bool _backpressureNeeded = false;
-
-        public event EventHandler<Message> MessagePublished;
-        public readonly Queue<SystemEventArgs> SystemEvents;
+        private readonly Queue<SystemEventArgs> _systemEvents;
+        private bool _backpressureNeeded;
 
         public Publisher(Relay relay)
         {
             _relay = relay;
             _relay.BackPressureNeeded += BackpressureHandler;
             MessagePublished += _relay.HandleMessagePublished;
-            SystemEvents = new Queue<SystemEventArgs>();
+            _systemEvents = new Queue<SystemEventArgs>();
         }
+
+        public event EventHandler<Message> MessagePublished;
 
         public void Run()
         {
             while (true)
             {
-                if (_backpressureNeeded || SystemEvents.Count < 1)
-                {
-                    continue;
-                }
-                var systemEvent = SystemEvents.Dequeue();
+                // Send messages only if we have something to send and Relay is ready to receive messages
+                if (_backpressureNeeded || _systemEvents.Count < 1) continue;
+                var systemEvent = _systemEvents.Dequeue();
 
                 MessagePublished?.Invoke(this, new Message
                 {
@@ -40,7 +37,8 @@ namespace RelayTask
 
         public void SystemMessageEmitted(object sender, SystemEventArgs e)
         {
-            SystemEvents.Enqueue(e);
+            // Queue ensures that order will be kept - as we send messages by dequeueing in loop
+            _systemEvents.Enqueue(e);
         }
 
         private void BackpressureHandler(object sender, bool e)

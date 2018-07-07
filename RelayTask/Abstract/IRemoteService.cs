@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 
-namespace RelayTask
+namespace RelayTask.Abstract
 {
     public interface IRemoteService
     {

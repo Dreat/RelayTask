@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace RelayTask
+namespace RelayTask.Abstract
 {
     public interface ISubscriber
     {

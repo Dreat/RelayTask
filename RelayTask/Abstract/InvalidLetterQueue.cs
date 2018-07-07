@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RelayTask
+namespace RelayTask.Abstract
 {
     public class InvalidLetterQueue : IInvalidLetterQueue
     {

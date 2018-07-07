@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace RelayTask
+namespace RelayTask.Abstract
 {
-    public interface IInvalidLetterQueue
+    public interface IDeadLetterQueue
     {
         Task ReceiveMsg(Message msg);
     }
