@@ -7,7 +7,7 @@ using RelayTask.Subscribers.Abstract;
 namespace RelayTask.Subscribers
 {
     // To show resend and DeadLetterQueue feature I've made FailingSubscriber
-    // I will always return false/500 status code to indicate that Relay should try to resend message
+    // It will always return false/500 status code to indicate that Relay should try to resend message
     // After some tries relay will redirect message to DeadLetterQueue instead
     public class FailingSubscriber : ISubscriber, IRemoteService
     {
