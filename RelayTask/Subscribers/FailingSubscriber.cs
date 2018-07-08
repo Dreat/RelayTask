@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using RelayTask.Abstract;
+using RelayTask.Messages;
+using RelayTask.Subscribers.Abstract;
 
-namespace RelayTask
+namespace RelayTask.Subscribers
 {
     // To show resend and DeadLetterQueue feature I've made FailingSubscriber
     // I will always return false/500 status code to indicate that Relay should try to resend message

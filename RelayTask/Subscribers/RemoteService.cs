@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using RelayTask.Abstract;
 using RelayTask.Helpers;
+using RelayTask.Messages;
+using RelayTask.Subscribers.Abstract;
 
-namespace RelayTask
+namespace RelayTask.Subscribers
 {
     public class RemoteService : IRemoteService, IPrinter
     {

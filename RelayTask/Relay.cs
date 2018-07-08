@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using RelayTask.Abstract;
+using RelayTask.Infrastructure.Abstract;
+using RelayTask.Messages;
+using RelayTask.Subscribers.Abstract;
 
 namespace RelayTask
 {
@@ -13,7 +15,7 @@ namespace RelayTask
         private const int MaxTries = 5;
         private const uint BackpressureNotNeededTreshold = 2;
         private const uint BackpressureNeededTreshold = 5;
-        private readonly IDeadLetterQueue _deadLetterQueue;
+        private readonly IDeadMessageQueue _deadMessageQueue;
         private readonly IInvalidLetterQueue _invalidLetterQueue;
         private readonly List<IRemoteService> _remoteServices = new List<IRemoteService>();
         private readonly List<ISubscriber> _subscribers = new List<ISubscriber>();
@@ -21,9 +23,9 @@ namespace RelayTask
 
         public ConcurrentDictionary<string, Message> MessagesByCorrelationId = new ConcurrentDictionary<string, Message>();
 
-        public Relay(IDeadLetterQueue deadLetterQueue, IInvalidLetterQueue invalidLetterQueue)
+        public Relay(IDeadMessageQueue deadMessageQueue, IInvalidLetterQueue invalidLetterQueue)
         {
-            _deadLetterQueue = deadLetterQueue;
+            _deadMessageQueue = deadMessageQueue;
             _invalidLetterQueue = invalidLetterQueue;
         }
 
@@ -74,7 +76,7 @@ namespace RelayTask
 
                     // This is the last loop iteration - we failed MaxTries times, so we assume that message cannot be delivered
                     // So it belongs in the Dead Letter Qeueue - place for messages that cannot be delivered
-                    if (i == MaxTries) await _deadLetterQueue.ReceiveMsg(message);
+                    if (i == MaxTries) await _deadMessageQueue.ReceiveMsg(message);
                 }
             });
         }
@@ -106,7 +108,7 @@ namespace RelayTask
 
                     // This is the last loop iteration - we failed MaxTries times, so we assume that message cannot be delivered
                     // So it belongs in the Dead Letter Qeueue - place for messages that cannot be delivered
-                    if (i == MaxTries) await _deadLetterQueue.ReceiveMsg(message);
+                    if (i == MaxTries) await _deadMessageQueue.ReceiveMsg(message);
                 }
             });
         }

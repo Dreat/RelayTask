@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RelayTask
+namespace RelayTask.Messages
 {
     // I decided that if the only responses are either bool or HttpStatus code
     // Those are the commands, so they're not returning anything more than information

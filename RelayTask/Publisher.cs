@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using RelayTask.Messages;
 
 namespace RelayTask
 {
@@ -58,7 +59,9 @@ namespace RelayTask
         {
             _backpressureNeeded = e;
             var message = e ? "Backpressure issued!" : "Backpressure released!";
+            Console.ForegroundColor = e ? ConsoleColor.Red : ConsoleColor.Green;
             Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }

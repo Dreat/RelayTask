@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RelayTask.Abstract;
 using RelayTask.Helpers;
+using RelayTask.Infrastructure.Abstract;
+using RelayTask.Messages;
 
-namespace RelayTask
+namespace RelayTask.Infrastructure
 {
-    public class DeadLetterQueue : IDeadLetterQueue, IPrinter
+    public class DeadMessageQueue : IDeadMessageQueue, IPrinter
     {
         // I decided not to go with ConcurrentQueue as we will only write to this Queue during the "usual" system lifecycle
         // It will be read from only to check for dead messages during the tests, which will be artificially created

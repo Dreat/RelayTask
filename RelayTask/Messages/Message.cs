@@ -1,4 +1,4 @@
-﻿namespace RelayTask
+﻿namespace RelayTask.Messages
 {
     public class Message
     {

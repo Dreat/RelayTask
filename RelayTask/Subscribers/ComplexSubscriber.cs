@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using RelayTask.Abstract;
 using RelayTask.Helpers;
+using RelayTask.Messages;
+using RelayTask.Subscribers.Abstract;
 
-namespace RelayTask
+namespace RelayTask.Subscribers
 {
     // Let's assume this behaves like Subscriber and RemoveService
     // I was thinking about some random succes/failure, but it would make proper tests harder to write

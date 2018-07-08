@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using RelayTask.Abstract;
 using RelayTask.Helpers;
+using RelayTask.Infrastructure;
+using RelayTask.Messages;
+using RelayTask.Subscribers;
+using RelayTask.Subscribers.Abstract;
 
 namespace RelayTask.ConsoleApp
 {
@@ -13,15 +16,11 @@ namespace RelayTask.ConsoleApp
 
         static void Main(string[] args)
         {
-            var states = new List<bool>();
-            var deadLetterQueue = new DeadLetterQueue();
+            var deadLetterQueue = new DeadMessageQueue();
             var invalidLetterQueue = new InvalidLetterQueue();
             var relay = new Relay(deadLetterQueue, invalidLetterQueue);
             var publisher = new Publisher(relay);
             SystemEventRaised += publisher.SystemMessageEmitted;
-
-            // To check state changes - if backpressure was issued we will have "true" in that list
-            relay.BackPressureNeeded += (sender, e) => states.Add(e);
 
             var subscriber = new Subscriber();
             var remoteService = new RemoteService();

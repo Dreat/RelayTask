@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelayTask", "RelayTask\RelayTask.csproj", "{23F4CAB2-3DC3-484F-B166-C621688B16A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelayTask.Tests", "RelayTask.Tests\RelayTask.Tests.csproj", "{489ADCF0-B356-4B22-B794-7F91FCA9F2A7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayTask.ConsoleApp", "RelayTask.ConsoleApp\RelayTask.ConsoleApp.csproj", "{29E8E677-6BE1-46DA-87F7-C62592C7F5DC}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{23F4CAB2-3DC3-484F-B166-C621688B16A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23F4CAB2-3DC3-484F-B166-C621688B16A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23F4CAB2-3DC3-484F-B166-C621688B16A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{489ADCF0-B356-4B22-B794-7F91FCA9F2A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{489ADCF0-B356-4B22-B794-7F91FCA9F2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{489ADCF0-B356-4B22-B794-7F91FCA9F2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{489ADCF0-B356-4B22-B794-7F91FCA9F2A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{29E8E677-6BE1-46DA-87F7-C62592C7F5DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29E8E677-6BE1-46DA-87F7-C62592C7F5DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29E8E677-6BE1-46DA-87F7-C62592C7F5DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
