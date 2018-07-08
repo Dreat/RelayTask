@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using RelayTask.Helpers;
 
 namespace RelayTask.Abstract
 {
-    public class InvalidLetterQueue : IInvalidLetterQueue
+    public class InvalidLetterQueue : IInvalidLetterQueue, IPrinter
     {
         // I decided not to go with ConcurrentQueue as we will only write to this Queue during the "usual" system lifecycle
         // It will be read from only to check for invalid messages during the tests
@@ -14,6 +16,11 @@ namespace RelayTask.Abstract
         {
             InvalidMessaged.Enqueue(msg);
             return Task.CompletedTask;
+        }
+
+        public void Print()
+        {
+            Console.WriteLine($"Messaged in InvalidLetterQueue: {InvalidMessaged.Count}");
         }
     }
 }

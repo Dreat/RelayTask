@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -10,13 +11,15 @@ namespace RelayTask
     public class Relay
     {
         private const int MaxTries = 5;
-        private const uint BackpressureNotNeededTreshold = 5;
-        private const uint BackpressureNeededTreshold = 30;
+        private const uint BackpressureNotNeededTreshold = 2;
+        private const uint BackpressureNeededTreshold = 5;
         private readonly IDeadLetterQueue _deadLetterQueue;
         private readonly IInvalidLetterQueue _invalidLetterQueue;
         private readonly List<IRemoteService> _remoteServices = new List<IRemoteService>();
         private readonly List<ISubscriber> _subscribers = new List<ISubscriber>();
         private uint _currentMessagesHandled = 0;
+
+        public ConcurrentDictionary<string, Message> MessagesByCorrelationId = new ConcurrentDictionary<string, Message>();
 
         public Relay(IDeadLetterQueue deadLetterQueue, IInvalidLetterQueue invalidLetterQueue)
         {
@@ -24,14 +27,30 @@ namespace RelayTask
             _invalidLetterQueue = invalidLetterQueue;
         }
 
-        public void RegisterSubsriber(ISubscriber subscriber)
+        public void RegisterSubscriber(ISubscriber subscriber)
         {
             _subscribers.Add(subscriber);
+        }
+
+        public void RegisterSubscribers(IEnumerable<ISubscriber> subscribers)
+        {
+            foreach (var subscriber in subscribers)
+            {
+                RegisterSubscriber(subscriber);
+            }
         }
 
         public void RegisterRemoteService(IRemoteService remoteService)
         {
             _remoteServices.Add(remoteService);
+        }
+
+        public void RegisterRemoteServices(IEnumerable<IRemoteService> remoteServices)
+        {
+            foreach (var remoteService in remoteServices)
+            {
+                RegisterRemoteService(remoteService);
+            }
         }
 
         public event EventHandler<bool> BackPressureNeeded;
@@ -94,32 +113,48 @@ namespace RelayTask
 
         public void HandleMessagePublished(object sender, Message message)
         {
-            // I wanted to make Backpressure mechanism, so when Publisher sends more messages than Relay can process
-            // The Relay raises an event to make Publisher stop
-            // I know this is not the prettiest mechanism, but it's more to show concept
-            _currentMessagesHandled++;
-            if (_currentMessagesHandled >= BackpressureNeededTreshold) BackPressureNeeded?.Invoke(this, true);
-
-            // Artificially slow things down to check if backpressure works correctly
-            // I WANT to block this thread, simulating some more complex operations
-            Thread.Sleep(1000);
-
-            switch (message.MessageType)
+            new TaskFactory().StartNew(() =>
             {
-                case MessageType.WebOperation:
-                    HandleWebOperation(message);
-                    break;
-                case MessageType.LocalOperation:
-                    HandleLocalOperation(message);
-                    break;
-                default:
-                    HandleInvalidMessage(message);
-                    break;
-            }
+                // I wanted to make Backpressure mechanism, so when Publisher sends more messages than Relay can process
+                // The Relay raises an event to make Publisher stop
+                // I know this is not the prettiest mechanism, but it's more to show concept
+                _currentMessagesHandled++;
+                if (_currentMessagesHandled >= BackpressureNeededTreshold) BackPressureNeeded?.Invoke(this, true);
 
-            // We release backpressure when there are fewer messages to process
-            _currentMessagesHandled--;
-            if (_currentMessagesHandled <= BackpressureNotNeededTreshold) BackPressureNeeded?.Invoke(this, false);
+
+                Console.WriteLine($"Current messages to process {_currentMessagesHandled}");
+
+                // Generate correlationId and add it to dictionary
+                message.CorrelationId = GenerateCorrelationId();
+                while (!MessagesByCorrelationId.TryAdd(message.CorrelationId, message))
+                { }
+
+                // Artificially slow things down to check if backpressure works correctly
+                // I WANT to block this thread, simulating some more complex operations
+                Thread.Sleep(100);
+
+                switch (message.MessageType)
+                {
+                    case MessageType.WebOperation:
+                        HandleWebOperation(message);
+                        break;
+                    case MessageType.LocalOperation:
+                        HandleLocalOperation(message);
+                        break;
+                    default:
+                        HandleInvalidMessage(message);
+                        break;
+                }
+
+                // We release backpressure when there are fewer messages to process
+                _currentMessagesHandled--;
+                if (_currentMessagesHandled <= BackpressureNotNeededTreshold) BackPressureNeeded?.Invoke(this, false);
+            });
+        }
+
+        private static string GenerateCorrelationId()
+        {
+            return Guid.NewGuid().ToString();
         }
     }
 }
